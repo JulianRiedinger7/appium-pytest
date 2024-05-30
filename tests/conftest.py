@@ -18,3 +18,30 @@ def driver():
     driver = webdriver.Remote(appium_server_url, options=UiAutomator2Options().load_capabilities(capabilities))
     yield driver
     driver.quit()
+
+@pytest.fixture
+def valid_credentials():
+    return {
+        "username": "standard_user",
+        "password": "secret_sauce"
+    }
+
+@pytest.fixture
+def invalid_credentials():
+    return [
+        {
+            "username": "",
+            "password": "",
+            "message": "Username is required"
+        },
+        {
+            "username": "test",
+            "password": "",
+            "message": "Password is required"
+        },
+        {
+            "username": "test",
+            "password": "test",
+            "message": "Username and password do not match any user in this service."
+        }
+    ]
