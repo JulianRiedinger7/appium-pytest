@@ -22,3 +22,9 @@ class LoginPage(BasePage):
 
     def get_error_message_text(self):
         return self.wait_for_element(self.ERROR_MESSAGE).text
+
+    def login(self, username: str, password: str) -> ProductsPage:
+        self.enter_username(username)
+        self.enter_password(password)
+        self.click_login_button()
+        return ProductsPage(self.driver)
