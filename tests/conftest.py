@@ -26,6 +26,12 @@ def login(driver, valid_credentials):
     login_page = LoginPage(driver)
     return login_page.login(valid_credentials.get("username"), valid_credentials.get("password"))
 
+@pytest.fixture()
+def add_product(login):
+    products_page = login
+    products_page.add_first_product()
+    return products_page
+
 @pytest.fixture
 def valid_credentials():
     return {

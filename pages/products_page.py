@@ -13,3 +13,26 @@ class ProductsPage(BasePage):
     
     def click_all_add_to_cart_buttons(self):
         self.click_all(self.ADD_TO_CART_BUTTONS)
+
+    def add_first_product(self):
+        PRODUCT_ADD_LOCATOR = (
+            AppiumBy.XPATH,
+            "(//android.view.ViewGroup[@content-desc='test-ADD TO CART'])[1]"
+        )
+
+        self.click_on(PRODUCT_ADD_LOCATOR)
+
+    def get_first_product_info(self):
+        product_title_locator = (
+            AppiumBy.XPATH,
+            "(//*[@content-desc='test-Item title'])[1]"
+        )
+        product_price_locator = (
+            AppiumBy.XPATH,
+            "(//*[@content-desc='test-Price'])[1]"
+        )
+
+        return {
+            "title": self.wait_for_element(product_title_locator).text,
+            "price": self.wait_for_element(product_price_locator).text
+        }

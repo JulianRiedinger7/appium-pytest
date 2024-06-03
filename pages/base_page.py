@@ -1,5 +1,5 @@
 from appium.webdriver.webdriver import WebDriver
-from selenium.common import TimeoutException
+from selenium.common import TimeoutException, NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -19,7 +19,25 @@ class BasePage:
         )
 
     def click_on(self, locator: tuple[str, str]):
-        self.wait_for_element(locator).click()
+        max_scroll_attempts = 3
+        scroll_attempts = 0
+
+        while scroll_attempts < max_scroll_attempts:
+            try:
+                element = self.wait_for_element(locator)
+                if element.is_displayed():
+                    element.click()
+                    return
+                else:
+                    self.scroll_down()
+            except NoSuchElementException:
+                self.scroll_down()
+            except TimeoutException:
+                self.scroll_down()
+
+            scroll_attempts += 1
+
+        raise Exception(f"Could not find element after {max_scroll_attempts} scroll attempts")
 
     def click_all(self, locator: tuple[str, str]):
         # Clicks all elements including those not visible without scrolling first
