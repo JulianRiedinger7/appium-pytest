@@ -1,17 +1,9 @@
-import pytest
-
 from pages.header_page import HeaderPage
-from pages.login_page import LoginPage
+from pages.products_page import ProductsPage
 
 
-@pytest.fixture()
-def login(driver, valid_credentials):
-    login_page = LoginPage(driver)
-    return login_page.login(valid_credentials.get("username"), valid_credentials.get("password"))
-
-
-def test_buy_all_products(login):
-    products_page = login
+def test_add_all_products_to_cart(login):
+    products_page: ProductsPage = login
     header_page = HeaderPage(products_page.driver)
     amount_of_products = "6"
 

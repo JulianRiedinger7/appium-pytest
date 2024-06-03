@@ -2,6 +2,8 @@ import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 
+from pages.login_page import LoginPage
+
 
 @pytest.fixture()
 def driver():
@@ -18,6 +20,11 @@ def driver():
     driver = webdriver.Remote(appium_server_url, options=UiAutomator2Options().load_capabilities(capabilities))
     yield driver
     driver.quit()
+
+@pytest.fixture()
+def login(driver, valid_credentials):
+    login_page = LoginPage(driver)
+    return login_page.login(valid_credentials.get("username"), valid_credentials.get("password"))
 
 @pytest.fixture
 def valid_credentials():
