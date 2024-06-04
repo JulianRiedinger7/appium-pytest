@@ -77,3 +77,6 @@ class BasePage:
         element = self.wait_for_element(locator)
         element.clear()
         element.send_keys(text)
+
+    def is_element_displayed(self, locator: tuple[str, str]) -> bool:
+        return self.wait_for_element(locator).is_displayed()

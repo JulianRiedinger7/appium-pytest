@@ -5,7 +5,7 @@ from appium.options.android import UiAutomator2Options
 from pages.login_page import LoginPage
 
 
-@pytest.fixture()
+@pytest.fixture
 def driver():
     capabilities = {
         "platformName": "Android",
@@ -21,12 +21,12 @@ def driver():
     yield driver
     driver.quit()
 
-@pytest.fixture()
+@pytest.fixture
 def login(driver, valid_credentials):
     login_page = LoginPage(driver)
     return login_page.login(valid_credentials.get("username"), valid_credentials.get("password"))
 
-@pytest.fixture()
+@pytest.fixture
 def add_product(login):
     products_page = login
     products_page.add_first_product()
@@ -57,4 +57,27 @@ def invalid_credentials():
             "password": "test",
             "message": "Username and password do not match any user in this service."
         }
+    ]
+
+@pytest.fixture
+def incorrect_checkout_information():
+    return [
+        {
+            "first_name": "",
+            "last_name": "",
+            "postal_code": "",
+            "message": "First Name is required"
+        },
+        {
+            "first_name": "test",
+            "last_name": "",
+            "postal_code": "",
+            "message": "Last Name is required"
+        },
+        {
+            "first_name": "test",
+            "last_name": "test",
+            "postal_code": "",
+            "message": "Postal Code is required"
+        },
     ]
